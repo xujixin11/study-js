@@ -1,0 +1,229 @@
+<style lang="less">
+.bind {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 50px 6.25rem 10px 6.25rem;
+}
+
+.test {
+  display: flex;
+  font-size: 15px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 25px 5rem 0px 5rem;
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
+.line {
+  height: 1px;
+  width: 70px;
+  background-color: black;
+}
+
+.best {
+  display: flex;
+  width: 100px;
+  height: 80px;
+  margin: 20px;
+  font-size: 15px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: peachpuff;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 16px;
+}
+
+.find {
+  display: flex;
+  font-size: 13px;
+  justify-content: center;
+}
+
+.photo {
+  display: flex;
+  height: 25px;
+  width: 25px;
+  margin: 20px;
+}
+
+.and {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.both {
+  height: 15px;
+  width: 15px;
+}
+
+.view {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.take {
+  display: flex;
+  font-size: 15px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 5rem;
+}
+</style>
+<template>
+  <view>
+
+    <view class="container">
+      <text>简单2步，选中心动好礼</text>
+    </view>
+
+    <view class="test">
+      <!-- <view class="icon"> -->
+      <image class="both" src="{{person}}"></image> 
+      <!-- </view> -->
+      <view class="line"></view>
+      <!-- <view class="icon"> -->
+      <image class="both" src="{{like}}"></image> 
+      <!-- </view> -->
+      <view class="line"></view>
+      <!-- <view class="icon"> -->
+      <image class="both" src="{{finish}}"></image>
+      <!-- </view>  -->
+    </view>
+
+    <view class="take">
+      <text class="row">送给TA</text>
+      <text claa="row">TA喜欢的</text>
+      <text claa="row">完成</text>
+    </view>
+
+    <view class="bind">
+      <view @tap="she" style= "color:{{red}}; border-bottom: 3px solid {{solidred}}" >送她</view>
+      <view @tap="he" style= "color:{{gray}}; border-bottom: 3px solid {{solidwhite}}">送他</view>
+    </view>
+
+    <view class="row and">
+      <view class="best center">
+        <image class="photo" src="{{camera}}"></image> 
+        <text>自己</text>
+      </view>
+      <view class= "best center">
+        <image class="photo" src="{{ring}}"></image>
+        <text>{{wife}}</text>
+      </view>
+      <view class= "best center">
+        <image class="photo" src="{{lipstick}}"></image> 
+        <text>{{sister}}</text>
+      </view>
+    </view>
+
+    <view class= "row and">
+      <view class= "best center">
+        <image class= "photo" src="{{flower}}"></image> 
+        <text>{{mum}}</text>
+      </view>
+      <view class= "best center">
+        <image class= "photo" src="{{clothes}}"></image> 
+        <text>长辈</text>
+      </view>
+      <view class="best center">
+        <image class="photo" src="{{wallet}}"></image> 
+        <text>同事</text>
+      </view>
+    </view>
+
+    <view class= "find view">
+      <text>先跳过，随便逛逛▶</text>
+    </view>
+
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '礼物说'
+  }
+  data = {
+    src: '',
+    wife: '老婆/女票',
+    sister: '姐妹/闺蜜',
+    mum: '妈妈',
+    person: '../image/person.jpg',
+    like: '../image/礼物.png',
+    finish: '../image/对号.png',
+    camera: '../image/相机.png',
+    ring: '../image/戒指.png',
+    lipstick: '../image/口红.png',
+    flower: '../image/鲜花.png',
+    clothes: '../image/衣服.png',
+    wallet: '../image/钱包.png',
+    red: 'red',
+    gray: 'gray',
+    solidred: 'red',
+    solidwhite: 'white'
+  }
+  methods = {
+    she() {
+      let self = this
+      self.camera = '../image/相机.png'
+      self.ring = '../image/戒指.png'
+      self.lipstick = '../image/口红.png'
+      self.flower = '../image/鲜花.png'
+      self.clothes = '../image/衣服.png'
+      self.wallet = '../image/钱包.png'
+      self.wife = '老婆/女票'
+      self.sister = '姐妹/闺蜜'
+      self.mum = '妈妈'
+      self.red = 'red'
+      self.gray = 'gray'
+      self.solidred = 'red'
+      self.solidwhite = 'white'
+    },
+    he() {
+      let self = this
+      self.camera = '../image/相机.png'
+      self.ring = '../image/戒指.png'
+      self.lipstick = '../image/手表.png'
+      self.flower = '../image/眼镜.png'
+      self.clothes = '../image/衣服.png'
+      self.wallet = '../image/钱包.png'
+      self.wife = '老公/男票'
+      self.sister = '兄弟/基友'
+      self.mum = '爸爸'
+      self.gray = 'red'
+      self.red = 'gray'
+      self.solidwhite = 'red'
+      self.solidred = 'white'
+    }
+  }
+  onLoad() {}
+}
+</script>

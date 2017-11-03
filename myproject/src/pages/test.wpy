@@ -1,0 +1,378 @@
+<style lang="less">
+.button-hover {
+  background-color:red;
+}
+.check-box {
+  display: flex;
+  flex-direction: column;
+}
+.button-node {
+  background-color: yellow;
+}
+.box {
+  background-color: burlywood;
+  font-size: 15px;
+  height: 30px;
+  weight: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.test {
+  background-color: white;
+  margin: 20px;
+  padding: 50px;
+  border: 1px solid red;
+  border-radius: 666px;
+}
+.body {
+  background-color: yellow;
+  margin: 15px 20px;
+  padding: 20px 25px;
+}
+.lady {
+  background-color: red;
+  margin: 15px 10px 20px 25px;
+  padding: 20px 15px 20px 25px;
+}
+</style>
+
+<template>
+  <view>
+    <view class = "test">
+      <text class = "box">姓名：徐基欣</text>
+    </view>
+    <view class = "test">
+      <text class = "box">性别：男</text>
+    </view>
+    <view class = "test">
+      <text class = "box">年龄：21</text>
+    </view>
+    <view class = "test">
+      <text class = "box">出生年月：1996-08-08</text>
+    </view>
+    <view class = "test">
+      <text class = "box">专业班级：计算机14K2</text>
+    </view>
+    <view class = "test">
+      <text class = "box">学校：华北电力大学科技学院</text>
+    </view>
+    <view class = "test">
+      <text class = "box">入学时间：2014.09</text>
+    </view>
+
+      <button class = "button-hover" hover-class = "button-node">click</button>
+      <button class = "button-node"  @tap = "onTap">node</button>
+      <text>{{age}}</text>
+      <checkbox-group bindchange="checkboxChange">
+        <label wx:for="{{items}}" class = "check-box">
+          <checkbox color = "red" value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}</checkbox>
+        </label>
+      </checkbox-group>
+
+  <form bindsubmit="formSubmit" bindreset="formReset">
+    <view class="section section_gap">
+      <view class="section__title">switch</view>
+      <switch name="switch"/>
+    </view>
+
+    <view class="section section_gap">
+      <view class="section__title">slider</view>
+      <slider name="slider" show-value ></slider>
+    </view>
+
+    <view class="section">
+      <view class="section__title">input</view>
+      <input name="input" placeholder="please input here" />
+    </view>
+
+    <view class="section section_gap">
+      <view class="section__title">radio</view>
+      <radio-group name="radio-group">
+        <label><radio value="radio1"/>radio1</label>
+        <label><radio value="radio2"/>radio2</label>
+      </radio-group>
+    </view>
+
+    <view class="section section_gap">
+      <view class="section__title">checkbox</view>
+      <checkbox-group name="checkbox">
+        <label><checkbox value="checkbox1"/>checkbox1</label>
+        <label><checkbox value="checkbox2"/>checkbox2</label>
+      </checkbox-group>
+    </view>
+
+    <view class="btn-area">
+      <button formType="submit">Submit</button>
+      <button formType="reset">Reset</button>
+    </view>
+  </form>
+
+    <view class="section">
+      <input placeholder="这是一个可以自动聚焦的input" auto-focus/>
+    </view>
+
+    <view>
+      <view>{{year}}年{{month}}月{{day}}日</view>
+      <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{value}}" bindchange="bindChange">
+        <picker-view-column>
+           <view wx:for="{{years}}" style="line-height: 50px">{{item}}年</view>
+        </picker-view-column>
+        <picker-view-column>
+           <view wx:for="{{months}}" style="line-height: 50px">{{item}}月</view>
+        </picker-view-column>
+        <picker-view-column>
+           <view wx:for="{{days}}" style="line-height: 50px">{{item}}日</view>
+        </picker-view-column>
+      </picker-view>
+    </view>
+
+    <view class="section">
+      <view class="section__title">多列选择器</view>
+      <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+        <view class="picker">
+        当前选择：{{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="container">
+      <video src="{{src}}"></video>
+      <button bindtap="bindButtonTap">获取视频</button>
+    </view>
+
+    <view class="container">
+      <image src="{{src}}"></image>
+      <button bindtap="bindButton">获取图片</button>
+    </view>
+
+    <audio poster="{{poster}}" name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls loop></audio>
+
+    <button type="primary" bindtap="audioPlay">播放</button>
+    <button type="primary" bindtap="audioPause">暂停</button>
+    <button type="primary" bindtap="audio14">设置当前播放时间为14秒</button>
+    <button type="primary" bindtap="audioStart">回到开头</button>
+  </view>
+</template>
+
+<script>
+    import wepy from 'wepy'
+    const date = new Date()
+    const years = []
+    const months = []
+    const days = []
+
+    for (let i = 1990; i <= date.getFullYear(); i++) {
+      years.push(i)
+    }
+    for (let i = 1; i <= 12; i++) {
+      months.push(i)
+    }
+    for (let i = 1; i <= 31; i++) {
+      days.push(i)
+    }
+export default class Index extends wepy.page {
+  config = {
+        navigationBarTitleText: '自我介绍'
+      }
+      data = {
+        age: 20,
+        items: [
+
+          {name: 'USA', value: '美国'},
+          {name: 'CHN', value: '中国', checked: 'true'},
+          {name: 'BRA', value: '巴西'},
+          {name: 'JPN', value: '日本'},
+          {name: 'ENG', value: '英国'},
+          {name: 'TUR', value: '法国'}
+        ],
+        years: years,
+        year: date.getFullYear(),
+        months: months,
+        month: 10,
+        days: days,
+        day: 9,
+        value: [9999, 1, 1],
+
+        multiArray: [['无脊柱动物', '脊柱动物'], ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'], ['猪肉绦虫', '吸血虫']],
+        objectMultiArray: [
+          [
+            {
+              id: 0,
+              name: '无脊柱动物'
+            },
+            {
+              id: 1,
+              name: '脊柱动物'
+            }
+          ], [
+            {
+              id: 0,
+              name: '扁性动物'
+            },
+            {
+              id: 1,
+              name: '线形动物'
+            },
+            {
+              id: 2,
+              name: '环节动物'
+            },
+            {
+              id: 3,
+              name: '软体动物'
+            },
+            {
+              id: 3,
+              name: '节肢动物'
+            }
+          ], [
+            {
+              id: 0,
+              name: '猪肉绦虫'
+            },
+            {
+              id: 1,
+              name: '吸血虫'
+            }
+          ]
+        ],
+        multiIndex: [0, 0, 0],
+
+        poster: 'http://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000',
+        name: '此时此刻',
+        author: '许巍',
+        src: 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=46'
+      }
+      onTap() {
+        let self = this
+        self.age++
+      }
+      formSubmit(e) {
+        console.log('form发生了submit事件，携带数据为：', e.detail.value)
+      }
+      formReset() {
+        console.log('form发生了reset事件')
+      }
+      onLoad() {}
+      bindButtonTap() {
+        let self = this
+        wepy.chooseVideo({
+          sourceType: ['album', 'camera'],
+          maxDuration: 60,
+          camera: 'back',
+          success(res) {
+            self.setData({
+              src: res.tempFilePath
+            })
+          }
+        })
+      }
+      bindButton() {
+        let self = this
+        wepy.chooseImage({
+          count: 1,
+          sizeType: ['original', 'compressed'],
+          sourceType: ['album', 'camera'],
+          success(res) {
+            self.setData({
+              src: res.tempFilePaths
+            })
+          }
+        })
+      }
+      bindChange(e) {
+        console.log(e.detail.value)
+        const val = e.detail.value
+        let self = this
+        self.year = self.years[val[0]]
+        self.month = self.months[val[1]]
+        self.day = self.days[val[2]]
+      }
+
+      bindMultiPickerChange(e) {
+        console.log('picker发送选择改变，携带值为', e.detail.value)
+        this.setData({
+          multiIndex: e.detail.value
+        })
+      }
+      bindMultiPickerColumnChange(e) {
+        console.log('修改的列为', e.detail.column, '，值为', e.detail.value)
+        var data = {
+          multiArray: this.data.multiArray,
+          multiIndex: this.data.multiIndex
+        }
+        data.multiIndex[e.detail.column] = e.detail.value
+        switch (e.detail.column) {
+          case 0:
+            switch (data.multiIndex[0]) {
+              case 0:
+                data.multiArray[1] = ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物']
+                data.multiArray[2] = ['猪肉绦虫', '吸血虫']
+                break
+              case 1:
+                data.multiArray[1] = ['鱼', '两栖动物', '爬行动物']
+                data.multiArray[2] = ['鲫鱼', '带鱼']
+                break
+            }
+            data.multiIndex[1] = 0
+            data.multiIndex[2] = 0
+            break
+          case 1:
+            switch (data.multiIndex[0]) {
+              case 0:
+                switch (data.multiIndex[1]) {
+                  case 0:
+                    data.multiArray[2] = ['猪肉绦虫', '吸血虫']
+                    break
+                  case 1:
+                    data.multiArray[2] = ['蛔虫']
+                    break
+                  case 2:
+                    data.multiArray[2] = ['蚂蚁', '蚂蟥']
+                    break
+                  case 3:
+                    data.multiArray[2] = ['河蚌', '蜗牛', '蛞蝓']
+                    break
+                  case 4:
+                    data.multiArray[2] = ['昆虫', '甲壳动物', '蛛形动物', '多足动物']
+                    break
+                }
+                break
+              case 1:
+                switch (data.multiIndex[1]) {
+                  case 0:
+                    data.multiArray[2] = ['鲫鱼', '带鱼']
+                    break
+                  case 1:
+                    data.multiArray[2] = ['青蛙', '娃娃鱼']
+                    break
+                  case 2:
+                    data.multiArray[2] = ['蜥蜴', '龟', '壁虎']
+                    break
+                }
+                break
+            }
+            data.multiIndex[2] = 0
+            console.log(data.multiIndex)
+            break
+        }
+        this.setData(data)
+      }
+      onReady(e) {
+        this.audioCtx = wepy.createAudioContext('myAudio')
+      }
+      audioPlay() {
+        this.audioCtx.play()
+      }
+      audioPause() {
+        this.audioCtx.pause()
+      }
+      audio14() {
+        this.audioCtx.seek(14)
+      }
+      audioStart() {
+        this.audioCtx.seek(0)
+      }
+}
+</script>
